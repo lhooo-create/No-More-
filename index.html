@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لعبة المفاتيح التعاونية</title>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Tajawal', sans-serif;
+            overflow: hidden;
+            background-color: #f0f0f0;
+        }
+        
+        #gameContainer {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+            background-image: url('https://img.freepik.com/free-vector/pixel-art-game-background-nature-landscape_52683-68841.jpg');
+            background-size: cover;
+            overflow: hidden;
+        }
+        
+        .player {
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            background-size: contain;
+            background-repeat: no-repeat;
+            transition: all 0.3s ease;
+            z-index: 10;
+        }
+        
+        .key {
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            background-image: url('https://cdn-icons-png.flaticon.com/512/2583/2583344.png');
+            background-size: contain;
+            z-index: 5;
+        }
+        
+        .door {
+            position: absolute;
+            width: 60px;
+            height: 100px;
+            background-image: url('https://cdn-icons-png.flaticon.com/512/1100/1100262.png');
+            background-size: contain;
+            background-repeat: no-repeat;
+            right: 50px;
+            bottom: 50px;
+            z-index: 8;
+        }
+        
+        .obstacle {
+            position: absolute;
+            background-color: #8B4513;
+            border-radius: 5px;
+            z-index: 7;
+        }
+        
+        #playerForm {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            z-index: 100;
+            width: 300px;
+        }
+        
+        #playerForm input, #playerForm button {
+            margin: 10px 0;
+            padding: 8px 12px;
+            font-family: 'Tajawal', sans-serif;
+            font-size: 16px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        
+        #gameInfo {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background-color: rgba(0, 0, 0, 0.6);
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+            z-index: 50;
+        }
+        
+        #keysInfo {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: rgba(0, 0, 0, 0.6);
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+            z-index: 50;
+        }
+        
+        #roomInfo {
+            position: absolute;
+            top: 60px;
+            left: 10px;
+            background-color: rgba(0, 0, 0, 0.6);
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+            z-index: 50;
+        }
+        
+        .key-icon {
+            width: 20px;
+            height: 20px;
+            display: inline-block;
+            background-image: url('https://cdn-icons-png.flaticon.com/512/2583/2583344.png');
+            background-size: contain;
+            margin: 0 5px;
+        }
+        
+        .rope {
+            position: absolute;
+            height: 3px;
+            background-color: #8B4513;
+            z-index: 6;
+            pointer-events: none;
+            transform-origin: 0 0;
+        }
+        
+        .player-name {
+            position: absolute;
+            bottom: -20px;
+            left: 0;
+            width: 100%;
+            text-align: center;
+            font-size: 12px;
+            color: white;
+            text-shadow: 1px 1px 2px black;
+        }
+    </style>
+</head>
+<body>
+    <div id="gameContainer">
+        <div id="playerForm">
+            <h2>انضم إلى اللعبة</h2>
+            <input type="text" id="roomId" placeholder="معرف الغرفة (اتركه فارغًا لإنشاء غرفة جديدة)">
+            <input type="text" id="playerName" placeholder="اسم اللاعب">
+            <button id="joinRoom">بدء اللعب</button>
+        </div>
+        
+        <div id="gameInfo" style="display: none;">
+            <h3>معلومات اللعبة</h3>
+            <p id="playersCount">اللاعبون: 0</p>
+            <p id="keysCollected">المفاتيح المجمعة: 0/3</p>
+        </div>
+        
+        <div id="keysInfo" style="display: none;">
+            <h3>حاملو المفاتيح</h3>
+            <div id="keyHolders"></div>
+        </div>
+        
+        <div id="roomInfo" style="display: none;"></div>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database-compat.js"></script>
+    
+    <script src="game.js"></script>
+</body>
+</html>
